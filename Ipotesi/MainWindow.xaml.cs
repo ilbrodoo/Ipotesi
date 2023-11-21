@@ -110,16 +110,23 @@ namespace Ipotesi
                     }
                 }
             }
-          
 
-            var malattiaPiùProbabile = frequenzeMalattie.OrderByDescending(kv => kv.Value).FirstOrDefault();
 
-            if (malattiaPiùProbabile.Value > 0)
+            var malattiePiùProbabili = frequenzeMalattie
+             .Where(kv => kv.Value == frequenzeMalattie.Values.Max())
+             .ToList();
+
+            if (malattiePiùProbabili.Any())
             {
-                Console.WriteLine($"Malattia più probabile: {malattiaPiùProbabile.Key} (Frequenza: {malattiaPiùProbabile.Value})");
+                Console.WriteLine("Malattie più probabili:");
+                foreach (var malattiaPiùProbabile in malattiePiùProbabili)
+                {
+                    Console.WriteLine($"{malattiaPiùProbabile.Key} (Frequenza: {malattiaPiùProbabile.Value})");
+                }
 
-                // Aggiorna la TextBox per mostrare la malattia più probabile
-                txtMalattieTrovate.Text = malattiaPiùProbabile.Key;
+                // Aggiorna la TextBox per mostrare le malattie più probabili
+                txtMalattieTrovate.Text = $"Malattia/e più probabile in base ai sintomi: {string.Join(Environment.NewLine, malattiePiùProbabili.Select(kv => kv.Key))}";
+
             }
             else
             {
