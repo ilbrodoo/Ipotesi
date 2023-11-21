@@ -32,10 +32,9 @@ namespace Ipotesi
             _listaSintomi = new ObservableCollection<Sintomi>();
             _filteredSintomi = new ObservableCollection<Sintomi>();
 
-            // Carica i sintomi dal database asincronamente
             Task.Run(async () => await CaricaSintomiDalDatabaseAsync());
 
-            // Assegna direttamente la ObservableCollection al ListBox
+        
             lstSintomi.ItemsSource = _filteredSintomi;
         }
 
@@ -43,7 +42,7 @@ namespace Ipotesi
         {
             try
             {
-                // Usa il dbContext inizializzato all'inizio
+                
                 var sintomi = await _dbContext.Sintomi.ToListAsync();
 
                 _listaSintomi.Clear();
@@ -52,7 +51,7 @@ namespace Ipotesi
                     _listaSintomi.Add(sintomo);
                 }
 
-                // Chiamata per filtrare dopo l'aggiornamento della lista
+                
                 FilterSintomi();
             }
             catch (Exception ex)
@@ -71,11 +70,11 @@ namespace Ipotesi
                 Console.WriteLine($"Sintomo: {sintomo.Sintomo}, Codice: {sintomo.Numeri}");
             }
 
-            // Estrai i codici dai sintomi selezionati
+       
             List<string> codiciSintomi = sintomiSelezionati
                 .Select(s => s.Numeri)
-                .SelectMany(c => c.Split(' ')) // Utilizza SelectMany per "appiattire" gli array di stringhe
-                .Where(c => !string.IsNullOrWhiteSpace(c)) // Filtra gli spazi vuoti
+                .SelectMany(c => c.Split(' ')) 
+                .Where(c => !string.IsNullOrWhiteSpace(c)) 
                 .ToList();
 
             Console.WriteLine("Codici sintomi estratti:");
@@ -89,8 +88,7 @@ namespace Ipotesi
           
             foreach (var codiceSintomo in codiciSintomi)
             {
-                // Controlla con i codici delle malattie
-                // Ad esempio:
+                
                 var malattieCorrispondenti = _dbContext.Malattie
                 .AsEnumerable()
                 .Where(m => m.Codice != null && m.Codice.Split(' ').Any(num => num == codiceSintomo))
@@ -99,7 +97,7 @@ namespace Ipotesi
 
                 foreach (var malattia in malattieCorrispondenti)
                 {
-                    // Aggiorna la frequenza delle malattie nel dizionario
+                  
                     if (frequenzeMalattie.ContainsKey(malattia))
                     {
                         frequenzeMalattie[malattia]++;
@@ -124,18 +122,17 @@ namespace Ipotesi
                     Console.WriteLine($"{malattiaPiùProbabile.Key} (Frequenza: {malattiaPiùProbabile.Value})");
                 }
 
-                // Aggiorna la TextBox per mostrare le malattie più probabili
+               
                 txtMalattieTrovate.Text = $"Malattia/e più probabile in base ai sintomi: {string.Join(Environment.NewLine, malattiePiùProbabili.Select(kv => kv.Key))}";
 
             }
             else
             {
                 Console.WriteLine("Nessuna malattia trovata.");
-                // Se vuoi gestire il caso in cui non è stata trovata alcuna malattia probabile, puoi
-                // inserire qui la logica appropriata.
+                
             }
 
-            // Pulisci la selezione dopo la ricerca
+          
             lstSintomi.SelectedItems.Clear();
             FilterSintomi();
         }
@@ -150,21 +147,21 @@ namespace Ipotesi
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                // Salva gli elementi selezionati prima di aggiornare la lista filtrata
+               
                 var sintomiSelezionati = lstSintomi.SelectedItems.Cast<Sintomi>().ToList();
 
                 _filteredSintomi.Clear();
 
                 foreach (var sintomo in _listaSintomi)
                 {
-                    // Aggiungi qui la logica di filtro, ad esempio, cerca nel campo 'Sintomo'
+                  
                     if (string.IsNullOrEmpty(txtFilter.Text) || sintomo.Sintomo.IndexOf(txtFilter.Text, StringComparison.OrdinalIgnoreCase) != -1)
                     {
                         _filteredSintomi.Add(sintomo);
                     }
                 }
 
-                // Riconsidera la selezione dopo l'aggiornamento della lista filtrata
+               
                 foreach (var sintomoSelezionato in sintomiSelezionati)
                 {
                     if (_filteredSintomi.Contains(sintomoSelezionato))
