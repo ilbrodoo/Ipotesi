@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="IpotesiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Ipotesi.dbo.Malattie' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Malattie">
+          <Key>
+            <PropertyRef Name="SSMA_TimeStamp" />
+          </Key>
+          <Property Name="Codice" Type="nvarchar" MaxLength="255" />
+          <Property Name="Info" Type="nvarchar" MaxLength="50" />
+          <Property Name="Descrizione" Type="nvarchar(max)" />
+          <Property Name="Zone" Type="nvarchar" MaxLength="255" />
+          <Property Name="Malattia" Type="nvarchar" MaxLength="255" />
+          <Property Name="Numeri" Type="nvarchar(max)" />
+          <Property Name="SSMA_TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Ipotesi.dbo.Sintomi' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Sintomi">
+          <Key>
+            <PropertyRef Name="SSMA_TimeStamp" />
+          </Key>
+          <Property Name="Codice" Type="nvarchar" MaxLength="255" />
+          <Property Name="Apparato" Type="nvarchar" MaxLength="1" />
+          <Property Name="ValorePatologico" Type="nvarchar" MaxLength="1" />
+          <Property Name="Sintomo" Type="nvarchar" MaxLength="255" />
+          <Property Name="Numeri" Type="nvarchar(max)" />
+          <Property Name="SSMA_TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="IpotesiModelStoreContainer">
+          <EntitySet Name="Malattie" EntityType="Self.Malattie" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Malattie].[Codice] AS [Codice], 
+    [Malattie].[Info] AS [Info], 
+    [Malattie].[Descrizione] AS [Descrizione], 
+    [Malattie].[Zone] AS [Zone], 
+    [Malattie].[Malattia] AS [Malattia], 
+    [Malattie].[Numeri] AS [Numeri], 
+    [Malattie].[SSMA_TimeStamp] AS [SSMA_TimeStamp]
+    FROM [dbo].[Malattie] AS [Malattie]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Sintomi" EntityType="Self.Sintomi" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Sintomi].[Codice] AS [Codice], 
+    [Sintomi].[Apparato] AS [Apparato], 
+    [Sintomi].[ValorePatologico] AS [ValorePatologico], 
+    [Sintomi].[Sintomo] AS [Sintomo], 
+    [Sintomi].[Numeri] AS [Numeri], 
+    [Sintomi].[SSMA_TimeStamp] AS [SSMA_TimeStamp]
+    FROM [dbo].[Sintomi] AS [Sintomi]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="IpotesiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Malattie">
+          <Key>
+            <PropertyRef Name="SSMA_TimeStamp" />
+          </Key>
+          <Property Name="Codice" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Info" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Descrizione" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Zone" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Malattia" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Numeri" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SSMA_TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Sintomi">
+          <Key>
+            <PropertyRef Name="SSMA_TimeStamp" />
+          </Key>
+          <Property Name="Codice" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Apparato" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="ValorePatologico" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="Sintomo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Numeri" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SSMA_TimeStamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityContainer Name="IpotesiEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Malattie" EntityType="Self.Malattie" />
+          <EntitySet Name="Sintomi" EntityType="Self.Sintomi" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="IpotesiModelStoreContainer" CdmEntityContainer="IpotesiEntities">
+          <EntitySetMapping Name="Malattie">
+            <EntityTypeMapping TypeName="IpotesiModel.Malattie">
+              <MappingFragment StoreEntitySet="Malattie">
+                <ScalarProperty Name="Codice" ColumnName="Codice" />
+                <ScalarProperty Name="Info" ColumnName="Info" />
+                <ScalarProperty Name="Descrizione" ColumnName="Descrizione" />
+                <ScalarProperty Name="Zone" ColumnName="Zone" />
+                <ScalarProperty Name="Malattia" ColumnName="Malattia" />
+                <ScalarProperty Name="Numeri" ColumnName="Numeri" />
+                <ScalarProperty Name="SSMA_TimeStamp" ColumnName="SSMA_TimeStamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sintomi">
+            <EntityTypeMapping TypeName="IpotesiModel.Sintomi">
+              <MappingFragment StoreEntitySet="Sintomi">
+                <ScalarProperty Name="Codice" ColumnName="Codice" />
+                <ScalarProperty Name="Apparato" ColumnName="Apparato" />
+                <ScalarProperty Name="ValorePatologico" ColumnName="ValorePatologico" />
+                <ScalarProperty Name="Sintomo" ColumnName="Sintomo" />
+                <ScalarProperty Name="Numeri" ColumnName="Numeri" />
+                <ScalarProperty Name="SSMA_TimeStamp" ColumnName="SSMA_TimeStamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
