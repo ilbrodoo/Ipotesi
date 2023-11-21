@@ -84,11 +84,9 @@ namespace Ipotesi
                 Console.WriteLine($"Codice sintomo: {codiceSintomo}");
             }
 
-            // Dictionary per tenere traccia delle frequenze dei codici delle malattie
             Dictionary<string, int> frequenzeMalattie = new Dictionary<string, int>();
 
-            // Ora hai una lista di codici singoli da confrontare con i codici delle malattie
-            // Esegui la tua logica di confronto qui con i codici delle malattie
+          
             foreach (var codiceSintomo in codiciSintomi)
             {
                 // Controlla con i codici delle malattie
@@ -145,6 +143,9 @@ namespace Ipotesi
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
+                // Salva gli elementi selezionati prima di aggiornare la lista filtrata
+                var sintomiSelezionati = lstSintomi.SelectedItems.Cast<Sintomi>().ToList();
+
                 _filteredSintomi.Clear();
 
                 foreach (var sintomo in _listaSintomi)
@@ -155,7 +156,17 @@ namespace Ipotesi
                         _filteredSintomi.Add(sintomo);
                     }
                 }
+
+                // Riconsidera la selezione dopo l'aggiornamento della lista filtrata
+                foreach (var sintomoSelezionato in sintomiSelezionati)
+                {
+                    if (_filteredSintomi.Contains(sintomoSelezionato))
+                    {
+                        lstSintomi.SelectedItems.Add(sintomoSelezionato);
+                    }
+                }
             });
         }
+
     }
 }
