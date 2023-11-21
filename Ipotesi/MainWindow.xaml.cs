@@ -21,22 +21,20 @@ namespace Ipotesi
     public partial class MainWindow : Window
     {
         private ObservableCollection<Sintomi> _listaSintomi;
-        private ICollectionView _filteredSintomiView;
+        private ObservableCollection<Sintomi> _filteredSintomi;
 
         public MainWindow()
         {
             InitializeComponent();
 
             _listaSintomi = new ObservableCollection<Sintomi>();
+            _filteredSintomi = new ObservableCollection<Sintomi>();
 
+            // Carica i sintomi dal database asincronamente
             Task.Run(async () => await CaricaSintomiDalDatabaseAsync());
 
-           
-            cmbSintomi.ItemsSource = _listaSintomi;
-
-            
-            _filteredSintomiView = CollectionViewSource.GetDefaultView(_listaSintomi);
-            _filteredSintomiView.Filter = FilterSintomi;
+            // Assegna direttamente la ObservableCollection al ListBox
+            lstSintomi.ItemsSource = _filteredSintomi;
         }
 
         private async Task CaricaSintomiDalDatabaseAsync()
@@ -45,24 +43,16 @@ namespace Ipotesi
             {
                 using (var dbContext = new IpotesiEntities())
                 {
-                    // Carica i sintomi dal database in modo asincrono utilizzando Task.Run
                     var sintomi = await Task.Run(() => dbContext.Sintomi.ToList());
 
-                    // Aggiungi questo per il debug
+                    _listaSintomi.Clear();
                     foreach (var sintomo in sintomi)
                     {
-                        Console.WriteLine(sintomo.Sintomo); // Assicurati di sostituire con il nome corretto della proprietà
+                        _listaSintomi.Add(sintomo);
                     }
 
-                    // Esegui il reset della ObservableCollection
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        _listaSintomi.Clear();
-                        foreach (var sintomo in sintomi)
-                        {
-                            _listaSintomi.Add(sintomo);
-                        }
-                    });
+                    // Chiamata per filtrare dopo l'aggiornamento della lista
+                    FilterSintomi();
                 }
             }
             catch (Exception ex)
@@ -72,20 +62,27 @@ namespace Ipotesi
         }
 
 
-        private bool FilterSintomi(object item)
+        private void FilterSintomi()
         {
-            if (string.IsNullOrEmpty(txtFilter.Text))
-                return true;
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _filteredSintomi.Clear();
 
-            
-            var sintomo = (Sintomi)item;
-            return sintomo.Sintomo.IndexOf(txtFilter.Text, StringComparison.OrdinalIgnoreCase) != -1;
+                foreach (var sintomo in _listaSintomi)
+                {
+                    // Aggiungi qui la logica di filtro, ad esempio, cerca nel campo 'Sintomo'
+                    if (string.IsNullOrEmpty(txtFilter.Text) || sintomo.Sintomo.IndexOf(txtFilter.Text, StringComparison.OrdinalIgnoreCase) != -1)
+                    {
+                        _filteredSintomi.Add(sintomo);
+                    }
+                }
+            });
         }
 
-       
+
         private void FilterTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            _filteredSintomiView.Refresh();
+            FilterSintomi();
         }
     }
 }

@@ -17,9 +17,14 @@
         <!-- TextBox per il filtro -->
         <TextBox x:Name="txtFilter" Margin="5,5,5,0" Grid.Row="0" Grid.ColumnSpan="2" TextChanged="FilterTextBox_TextChanged" />
 
-        <!-- ComboBox con filtro -->
-        <ComboBox x:Name="cmbSintomi" Margin="5,5,5,248" SelectedIndex="0" 
-                  ItemsSource="{Binding FilteredSintomi}" DisplayMemberPath="Sintomo"  Height="40px"
-                  Grid.ColumnSpan="2" Grid.Row="2"/>
+        <!-- ListBox per selezioni multiple -->
+        <ListBox x:Name="lstSintomi" Margin="5,22,5,55" SelectionMode="Multiple" 
+                 ItemsSource="{Binding FilteredSintomi}" DisplayMemberPath="Sintomo"
+                 Grid.ColumnSpan="2" Grid.Row="2"/>
+
+        <!-- Pulsante Cerca Malattia -->
+        <Button Content="Ricerca Malattia" Margin="10,246,162,31"  Grid.Row="2"/>
     </Grid>
+
+
 </Window>
