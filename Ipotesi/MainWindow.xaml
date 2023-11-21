@@ -17,14 +17,36 @@
         <!-- TextBox per il filtro -->
         <TextBox x:Name="txtFilter" Margin="5,5,5,0" Grid.Row="0" Grid.ColumnSpan="2" TextChanged="FilterTextBox_TextChanged" />
 
-        <!-- ListBox per selezioni multiple -->
-        <ListBox x:Name="lstSintomi" Margin="5,22,5,55" SelectionMode="Multiple" 
-                 ItemsSource="{Binding FilteredSintomi}" DisplayMemberPath="Sintomo"
-                 Grid.ColumnSpan="2" Grid.Row="2"/>
+        <!-- TabControl per le schede -->
+        <TabControl x:Name="tabControl" Margin="0,2,0,13" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Row="1">
+            <!-- Scheda principale -->
+            <TabItem Header="Main" x:Name="mainTab">
+                <!-- Contenuto della scheda principale -->
+                <Grid>
+                    <!-- ListBox per selezioni multiple -->
+                    <ListBox x:Name="lstSintomi" Margin="5,0,5,22" SelectionMode="Multiple" 
+                     ItemsSource="{Binding FilteredSintomi}" DisplayMemberPath="Sintomo" Grid.Row="0"/>
+                </Grid>
+            </TabItem>
 
-        <!-- Pulsante Cerca Malattia -->
-        <Button Content="Ricerca Malattia" Margin="10,246,162,31"  Grid.Row="2"/>
+            <!-- Scheda per la prognosi della malattia -->
+            <TabItem Header="Prognosi Malattia" x:Name="prognosiMalattiaTab">
+                <!-- Contenuto della scheda di prognosi malattia -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="7*"/>
+                        <ColumnDefinition Width="166*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock x:Name="txtMalattieTrovate" Text="Malattia: " Margin="5,5,5,5" Grid.ColumnSpan="2"/>
+
+
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+
+        <!-- Pulsante Cerca Malattia nella scheda principale -->
+        <Button Content="Ricerca Malattia" Margin="5,0,0,13" Click="RicercaMalattia_Click" Grid.Row="2" HorizontalAlignment="Left" Width="123" Height="39" VerticalAlignment="Bottom"/>
     </Grid>
-
-
 </Window>
