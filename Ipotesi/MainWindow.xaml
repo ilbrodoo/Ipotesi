@@ -30,7 +30,7 @@
             </TabItem>
 
             <!-- Scheda per la prognosi della malattia -->
-            <TabItem Header="Prognosi Malattia" x:Name="prognosiMalattiaTab">
+            <TabItem Header="Diagnosi Malattia" x:Name="prognosiMalattiaTab">
                 <!-- Contenuto della scheda di prognosi malattia -->
                 <Grid>
                     <Grid.ColumnDefinitions>

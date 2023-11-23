@@ -132,7 +132,7 @@ namespace Ipotesi
                 
             }
 
-          
+            tabControl.SelectedIndex = 1;
             lstSintomi.SelectedItems.Clear();
             FilterSintomi();
         }
